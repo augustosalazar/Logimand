@@ -30,6 +30,7 @@ export class canva extends Scene
         this.load.image('pc_component', 'pc.png');
         this.load.image('switch_component', 'switch.png');
         this.load.image('router_component', 'router.png');
+        this.load.image('and_gate_component', 'and_gate.png'); // New asset
         this.createGridTexture();
     }
 
@@ -237,10 +238,19 @@ export class canva extends Scene
             this.updateZoom(newZoom);
         });
 
+        EventBus.on('addAndGate', () => {
+            this.addAndGate();
+        })
+
         this.gridTileSprite = this.add.tileSprite(0, 0, this.cameras.main.width, this.cameras.main.height, 'gridTexture');
         this.gridTileSprite.setOrigin(0, 0);
     }
-
+    private addAndGate() {
+        const andGate = new AndGate(this, 100, 100); // Example position
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+            andGate.image.setPosition(pointer.worldX, pointer.worldY);
+        });
+    }
     /******************************************************************
      * 
                         ** EXPORT PROJECT**
